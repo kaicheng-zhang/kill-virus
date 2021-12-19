@@ -2,9 +2,9 @@ let config = {
     // 游戏的状态  0:游戏未开始  1：游戏进行中   2: 游戏结束
     status: 0,
     // 病毒生成的时间间隔
-    interval:800,
+    interval:2800,
     // 病毒动画的速度
-    speed:3
+    speed:1
 }
 
 // 得分
@@ -111,7 +111,7 @@ function update(){
         let virus = virues[i];
         virus.style.top = virus.offsetTop + config.speed + 'px'
 
-        if(virus.offsetTop > (winH - 400) && !uiLayer.warning ){
+        if(virus.offsetTop > (winH - 200) && !uiLayer.warning ){
             showWarning()
             uiLayer.warning = true;
         }else if(virus.offsetTop >= winH){
@@ -164,8 +164,8 @@ window.addEventListener('keyup',function(e){
             },1000)
             game.removeChild(virus)
             virues.splice(i,1)
-
-
+    
+            uiLayer.warning = false;
             score++;
             scoreLabel.innerHTML = score
 
