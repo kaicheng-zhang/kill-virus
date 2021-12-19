@@ -4,7 +4,9 @@ let config = {
     // 病毒生成的时间间隔
     interval:2800,
     // 病毒动画的速度
-    speed:1
+    speed:1,
+    // 一轮分数过关最高值
+    max: 2
 }
 
 // 得分
@@ -18,7 +20,7 @@ let gameDesc = document.querySelector('.game-desc')
 let footer = document.querySelector('#start-alert footer')
 
 startAlert.onclick = function(){
-    console.log('游戏开始')
+    // console.log('游戏开始')
 
     gameDesc.classList.add('slide-up')
     footer.classList.add('slide-down')
@@ -183,22 +185,42 @@ window.addEventListener('keyup',function(e){
             virues.splice(i,1)
     
             uiLayer.warning = false;
+            //有警告页面（class=”warning“）出现，则删除该页面
+            if (uiLayer.contains(document.querySelector('.warning'))){
+                uiLayer.removeChild(document.querySelector('.warning'));
+            }
+    
             score++;
             scoreLabel.innerHTML = score
 
             // 播放消灭音效
             xmEffect.currentTime = 0;
             xmEffect.play()
-
+    
+    
+            //分数到达本关卡最高值，进入通关页面，进入下一关
+            if (score>=config.max){
+                gamePass()
+            }
         }
     }
 })
+
+let gamePassAlert = document.querySelector('#game-pass-alert')
+// 游戏结束
+function gamePass(){
+    clearInterval(timer)
+    clearInterval(updater)
+    config.status = 2;
+    gamePassAlert.style.display = 'block';
+}
 
 
 // 重玩
 let restartBtn = document.querySelector('#restart-btn')
 restartBtn.onclick = function(){
-    gameOverAlert.style.display = 'none'
+    gameOverAlert.style.display = 'none';
+    console.log('reset game')
     resetGame()
 }
 
@@ -208,7 +230,36 @@ function resetGame(){
     scoreLabel.innerHTML = score;
     game.innerHTML = ''
     virues = []
-    uiLayer.removeChild(document.querySelector('.warning'))
+    //有警告页面（class=”warning“）出现，则删除该页面
+    if (uiLayer.contains(document.querySelector('.warning'))){
+        uiLayer.removeChild(document.querySelector('.warning'));
+    }
     uiLayer.warning = false;
+    config.speed=1;
+    startGame()
+}
+
+//下一关
+let passBtn = document.querySelector('#pass-btn')
+passBtn.onclick = function(){
+    gamePassAlert.style.display = 'none';
+    console.log('pass game')
+    passGame()
+}
+
+function passGame(){
+    let speedIncrease = parseInt(document.getElementById('speedOffset').value);
+    document.getElementById('speedOffset').value="25";//恢复默认速度增加百分比
+    config.status = 1;
+    score = 0;
+    scoreLabel.innerHTML = score;
+    game.innerHTML = ''
+    virues = []
+    //有警告页面（class=”warning“）出现，则删除该页面
+    if (uiLayer.contains(document.querySelector('.warning'))){
+        uiLayer.removeChild(document.querySelector('.warning'));
+    }
+    uiLayer.warning = false;
+    config.speed=config.speed*(1+speedIncrease/100);
     startGame()
 }

@@ -128,9 +128,9 @@ body {
 
 /* 游戏结束的样式 */
 /* 任务失败页面 */
-#game-over-alert {
+#game-over-alert, #game-pass-alert {
     width: 240px;
-    height: 80px;
+    height: 120px;
     border: solid 1px rgb(85, 255, 227);
     border-radius: 10px;
     color: #fff;
@@ -145,7 +145,7 @@ body {
     background-color:rgba(0,0,0,0.3);
 }
 
-#game-over-alert h1 {
+h1 {
     width: 150px;
     margin: 0 auto;
     margin-top: -40px;
@@ -153,13 +153,29 @@ body {
     text-shadow: 0 0 15px  rgb(85, 255, 227);
 }
 
-#game-over-alert #restart-btn {
-    font-size: 24px;
-    margin-top: 20px;
+
+#restart-btn, #pass-btn {
+    font-size: 18px;
+    font-weight: 400;
+    /*margin-top: 20px;*/
+    margin: 20px auto;
+    width:100px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    display: inline-block;
+    color:#fff;
+    text-align: center;
+    cursor: pointer;
 }
 
-
-
+#speed-offset-input{
+    margin: 0px auto;
+    font-size: 12px;
+}
 
 
 /* 滑动动画 */
