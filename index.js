@@ -104,12 +104,29 @@ function makeVirus(){
 
 let winH = stage.offsetHeight;
 
+window.onresize = function(){
+    winH = stage.offsetHeight;
+}
+
 // update 动画，刷新元素的位置
 function update(){
 
     for(let i = 0;i < virues.length;i++){
         let virus = virues[i];
-        virus.style.top = virus.offsetTop + config.speed + 'px'
+        let step = config.speed;
+        //病毒下落越低，速度越来越快的功能，每下落三分之一窗口高度，速度增加一倍
+        switch(true){
+            case virus.offsetTop< Math.round(winH/3):
+                step = config.speed;
+                break;
+            case virus.offsetTop< Math.round(winH*2/3):
+                step = config.speed*2;
+                break;
+            case virus.offsetTop<winH:
+                step = config.speed*3;
+                break;
+        }
+        virus.style.top = virus.offsetTop + step + 'px';
 
         if(virus.offsetTop > (winH - 200) && !uiLayer.warning ){
             showWarning()
@@ -128,7 +145,7 @@ function showWarning(){
 }
 
 let gameOverAlert = document.querySelector('#game-over-alert')
-// 游戏介绍
+// 游戏结束
 function gameOver(){
     clearInterval(timer)
     clearInterval(updater)
